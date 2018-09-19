@@ -1,6 +1,7 @@
 <?php namespace professionalweb\IntegrationHub\Postaffiliate\Services;
 
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\EventData;
+use professionalweb\IntegrationHub\Postaffiliate\Models\ApproveTransactionOptions;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Services\Subsystem;
 use professionalweb\IntegrationHub\Postaffiliate\Interfaces\ApproveTransactionSubsystem;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\ProcessOptions;
@@ -32,7 +33,9 @@ class ApproveTransactionService implements ApproveTransactionSubsystem
      */
     public function setProcessOptions(ProcessOptions $options): Subsystem
     {
-        // TODO: Implement setProcessOptions() method.
+        $this->getPartnerBoxService()->setSettings($options->getOptions());
+
+        return $this;
     }
 
     /**
@@ -42,7 +45,7 @@ class ApproveTransactionService implements ApproveTransactionSubsystem
      */
     public function getAvailableOptions(): SubsystemOptions
     {
-        // TODO: Implement getAvailableOptions() method.
+        return new ApproveTransactionOptions();
     }
 
     /**
@@ -54,7 +57,12 @@ class ApproveTransactionService implements ApproveTransactionSubsystem
      */
     public function process(EventData $eventData): EventData
     {
-        // TODO: Implement process() method.
+        $transactionId = $eventData->getData()['transaction_id'] ?? null;
+        if ($transactionId !== null) {
+            $this->getPartnerBoxService()->approveTransaction($transactionId);
+        }
+
+        return $eventData;
     }
 
     /**

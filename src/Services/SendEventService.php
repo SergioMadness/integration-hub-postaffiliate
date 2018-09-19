@@ -1,5 +1,6 @@
 <?php namespace professionalweb\IntegrationHub\Postaffiliate\Services;
 
+use professionalweb\IntegrationHub\Postaffiliate\Models\NewEventOptions;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\EventData;
 use professionalweb\IntegrationHub\Postaffiliate\Interfaces\NewEventSubsystem;
 use professionalweb\IntegrationHub\Postaffiliate\Interfaces\PartnerBoxService;
@@ -29,7 +30,9 @@ class SendEventService implements NewEventSubsystem
      */
     public function setProcessOptions(ProcessOptions $options): Subsystem
     {
-        // TODO: Implement setProcessOptions() method.
+        $this->getPartnerBoxService()->setSettings($options->getOptions());
+
+        return $this;
     }
 
     /**
@@ -39,7 +42,7 @@ class SendEventService implements NewEventSubsystem
      */
     public function getAvailableOptions(): SubsystemOptions
     {
-        // TODO: Implement getAvailableOptions() method.
+        return new NewEventOptions();
     }
 
     /**
@@ -51,7 +54,9 @@ class SendEventService implements NewEventSubsystem
      */
     public function process(EventData $eventData): EventData
     {
-        // TODO: Implement process() method.
+        $this->getPartnerBoxService()->sendEvent($eventData->getData());
+
+        return $eventData;
     }
 
     /**

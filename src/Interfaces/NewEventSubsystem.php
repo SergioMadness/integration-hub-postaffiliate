@@ -4,5 +4,5 @@ use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Services\Subs
 
 interface NewEventSubsystem extends Subsystem
 {
-
+    public const POSTAFFILIATE_NEW_TRANSACTION = 'postaffiliate-new-transaction';
 }

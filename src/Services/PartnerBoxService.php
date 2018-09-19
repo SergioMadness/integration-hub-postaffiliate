@@ -14,6 +14,11 @@ class PartnerBoxService implements IPartnerBoxService
      */
     private $integrationService;
 
+    /**
+     * @var string
+     */
+    private $eventName;
+
     public function __construct(PartnerBoxIntegrationService $partnerBoxIntegrationService)
     {
         $this->setIntegrationService($partnerBoxIntegrationService);
@@ -24,17 +29,28 @@ class PartnerBoxService implements IPartnerBoxService
      *
      * @param array $data
      *
-     * @return int
+     * @return string
      */
-    public function sendEvent(array $data): int
+    public function sendEvent(array $data): string
     {
         $response = $this->getIntegrationService()
-            ->sendEvent($data['event_name'], $data);
+            ->sendEvent($this->getEventName(), $data);
 
         return $response;
     }
 
+    /**
+     * Approve transaction
+     *
+     * @param string $transactionId
+     */
+    public function approveTransaction(string $transactionId): void
+    {
+        $this->getIntegrationService()->setTransactionStatus($transactionId, PartnerBoxIntegrationService::STATUS_APPROVED);
+    }
+
     //<editor-fold desc="Getters and setters" defaultstate="collapsed">
+
     /**
      * Get integration service
      *
@@ -81,5 +97,26 @@ class PartnerBoxService implements IPartnerBoxService
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getEventName(): string
+    {
+        return $this->eventName;
+    }
+
+    /**
+     * @param string $eventName
+     *
+     * @return $this
+     */
+    public function setEventName(string $eventName): self
+    {
+        $this->eventName = $eventName;
+
+        return $this;
+    }
+
     //</editor-fold>
 }

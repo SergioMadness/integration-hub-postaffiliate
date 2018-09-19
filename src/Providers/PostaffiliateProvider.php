@@ -1,4 +1,6 @@
-<?php namespace professionalweb\IntegrationHub\Drivers\PartnerBox;
+<?php namespace professionalweb\IntegrationHub\Postaffiliate\Providers;
+
+require __DIR__ . '/../Lib/PapApi.class.php';
 
 use Illuminate\Support\ServiceProvider;
 use professionalweb\IntegrationHub\Postaffiliate\Services\SendEventService;
@@ -18,6 +20,8 @@ class PostaffiliateProvider extends ServiceProvider
 
     public function register(): void
     {
+        $this->app->register(EventServiceProvider::class);
+
         $this->app->bind(IPartnerBoxIntegrationService::class, PartnerBoxIntegrationService::class);
         $this->app->bind(IPartnerBoxService::class, PartnerBoxService::class);
         $this->app->bind(NewEventSubsystem::class, SendEventService::class);

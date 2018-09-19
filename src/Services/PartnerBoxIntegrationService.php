@@ -96,9 +96,13 @@ class PartnerBoxIntegrationService implements IPartnerBoxIntegrationService
         $saleTracker = $this->createSaleTracker();
         $action = $saleTracker->createAction($eventName);
         foreach ($data as $param => $value) {
-            $methodName = 'set' . camel_case($param);
+            $methodName = 'set' . studly_case($param);
             if (method_exists($action, $methodName)) {
                 $action->$methodName($value);
+            } elseif (method_exists($saleTracker, $methodName)) {
+                $saleTracker->$methodName($value);
+            } elseif (method_exists($this, $methodName)) {
+                $this->$methodName($value);
             }
         }
 

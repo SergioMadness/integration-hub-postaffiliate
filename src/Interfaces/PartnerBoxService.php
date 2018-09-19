@@ -16,7 +16,14 @@ interface PartnerBoxService
      *
      * @param array $data
      *
-     * @return int
+     * @return string
      */
-    public function sendEvent(array $data): int;
+    public function sendEvent(array $data): string;
+
+    /**
+     * Approve transaction
+     *
+     * @param string $transactionId
+     */
+    public function approveTransaction(string $transactionId): void;
 }

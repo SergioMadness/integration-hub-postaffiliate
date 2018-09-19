@@ -4,5 +4,5 @@ use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Services\Subs
 
 interface ApproveTransactionSubsystem extends Subsystem
 {
-
+    public const POSTAFFILIATE_APPROVE_TRANSACTION = 'postaffiliate-approve-transaction';
 }
