@@ -17,7 +17,17 @@ class NewEventOptions implements SubsystemOptions
      */
     public function getAvailableFields(): array
     {
-        return [];
+        return [
+            'amount'     => 'Amount',
+            'email'      => 'E-mail',
+            'order_id'   => 'Order ID',
+            'product_id' => 'Product ID',
+            'data1'      => 'Data 1',
+            'data2'      => 'Data 2',
+            'data3'      => 'Data 3',
+            'data4'      => 'Data 4',
+            'data5'      => 'Data 5',
+        ];
     }
 
     /**
