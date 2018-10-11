@@ -4,7 +4,7 @@
  * Subsystem options
  * @package professionalweb\IntegrationHub\Postaffiliate\Models
  */
-class ApproveTransactionOptions extends NewEventOptions
+class SetStatusOptions extends NewEventOptions
 {
 
 
@@ -15,6 +15,9 @@ class ApproveTransactionOptions extends NewEventOptions
      */
     public function getAvailableFields(): array
     {
-        return [];
+        return [
+            'transaction_id' => 'transaction_id',
+            'status'         => 'status',
+        ];
     }
 }

@@ -1,7 +1,7 @@
 <?php namespace professionalweb\IntegrationHub\Postaffiliate\Services;
 
+use professionalweb\IntegrationHub\Postaffiliate\Models\SetStatusOptions;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\EventData;
-use professionalweb\IntegrationHub\Postaffiliate\Models\ApproveTransactionOptions;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Services\Subsystem;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\ProcessOptions;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\SubsystemOptions;
@@ -45,7 +45,7 @@ class SetStatusSubsystem implements ISetStatusSubsystem
      */
     public function getAvailableOptions(): SubsystemOptions
     {
-        return new ApproveTransactionOptions();
+        return new SetStatusOptions();
     }
 
     /**
