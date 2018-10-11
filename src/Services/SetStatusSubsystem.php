@@ -3,15 +3,15 @@
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\EventData;
 use professionalweb\IntegrationHub\Postaffiliate\Models\ApproveTransactionOptions;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Services\Subsystem;
-use professionalweb\IntegrationHub\Postaffiliate\Interfaces\ApproveTransactionSubsystem;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\ProcessOptions;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\SubsystemOptions;
+use professionalweb\IntegrationHub\Postaffiliate\Interfaces\SetStatusSubsystem as ISetStatusSubsystem;
 
 /**
  * Subsystem to approve transaction status in partnerbox
  * @package professionalweb\IntegrationHub\Postaffiliate\Services
  */
-class SetStatusSubsystem implements ApproveTransactionSubsystem
+class SetStatusSubsystem implements ISetStatusSubsystem
 {
 
     /**
