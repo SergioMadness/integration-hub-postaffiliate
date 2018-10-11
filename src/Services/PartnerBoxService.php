@@ -49,6 +49,27 @@ class PartnerBoxService implements IPartnerBoxService
         $this->getIntegrationService()->setTransactionStatus($transactionId, PartnerBoxIntegrationService::STATUS_APPROVED);
     }
 
+    /**
+     * Decline transaction
+     *
+     * @param string $transactionId
+     */
+    public function declineTransaction(string $transactionId): void
+    {
+        $this->getIntegrationService()->setTransactionStatus($transactionId, PartnerBoxIntegrationService::STATUS_DECLINED);
+    }
+
+    /**
+     * Set status to transaction
+     *
+     * @param string $transactionId
+     * @param string $transactionStatus
+     */
+    public function setTransactionStatus(string $transactionId, string $transactionStatus): void
+    {
+        $this->getIntegrationService()->setTransactionStatus($transactionId, $transactionStatus);
+    }
+
     //<editor-fold desc="Getters and setters" defaultstate="collapsed">
 
     /**

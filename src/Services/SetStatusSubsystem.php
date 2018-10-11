@@ -11,7 +11,7 @@ use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Subsys
  * Subsystem to approve transaction status in partnerbox
  * @package professionalweb\IntegrationHub\Postaffiliate\Services
  */
-class ApproveTransactionService implements ApproveTransactionSubsystem
+class SetStatusSubsystem implements ApproveTransactionSubsystem
 {
 
     /**
@@ -58,8 +58,9 @@ class ApproveTransactionService implements ApproveTransactionSubsystem
     public function process(EventData $eventData): EventData
     {
         $transactionId = $eventData->getData()['transaction_id'] ?? null;
+        $status = $eventData->getData()['status'] ?? null;
         if ($transactionId !== null) {
-            $this->getPartnerBoxService()->approveTransaction($transactionId);
+            $this->getPartnerBoxService()->setTransactionStatus($transactionId, $status);
         }
 
         return $eventData;

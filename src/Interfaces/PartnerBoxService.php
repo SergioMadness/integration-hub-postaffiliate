@@ -26,4 +26,19 @@ interface PartnerBoxService
      * @param string $transactionId
      */
     public function approveTransaction(string $transactionId): void;
+
+    /**
+     * Decline transaction
+     *
+     * @param string $transactionId
+     */
+    public function declineTransaction(string $transactionId): void;
+
+    /**
+     * Set status to transaction
+     *
+     * @param string $transactionId
+     * @param string $transactionStatus
+     */
+    public function setTransactionStatus(string $transactionId, string $transactionStatus): void;
 }
