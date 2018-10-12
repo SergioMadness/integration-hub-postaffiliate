@@ -118,10 +118,11 @@ class PartnerBoxIntegrationService implements IPartnerBoxIntegrationService
      * @param string     $status
      *
      * @return mixed
+     * @throws WrongCredentialsException
      */
     public function setTransactionStatus($orderId, string $status)
     {
-        $request = new \Pap_Api_TransactionsGrid($this->session);
+        $request = new \Pap_Api_TransactionsGrid($this->createSession());
         $request->addFilter('orderid', \Gpf_Data_Filter::EQUALS, $orderId);
         $request->sendNow();
         $grid = $request->getGrid();
