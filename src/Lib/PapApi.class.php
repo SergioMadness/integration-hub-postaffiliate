@@ -14,12 +14,12 @@
  *
  */
 
-@ini_set('session.gc_maxlifetime', 28800);
-@ini_set('session.cookie_path', '/');
-@ini_set('session.use_cookies', true);
-@ini_set('session.use_trans_sid', false);
+//@ini_set('session.gc_maxlifetime', 28800);
+//@ini_set('session.cookie_path', '/');
+//@ini_set('session.use_cookies', true);
+//@ini_set('session.use_trans_sid', false);
 
-define('PAP_VERSION', '5.7.0.1');
+defined('PAP_VERSION') || define('PAP_VERSION', '5.7.0.1');
 
 if (!class_exists('Gpf', false)) {
     class Gpf
