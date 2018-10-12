@@ -4,5 +4,5 @@ use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Services\Subs
 
 interface SetStatusSubsystem extends Subsystem
 {
-    public const POSTAFFILIATE_APPROVE_TRANSACTION = 'postaffiliate-set-status';
+    public const POSTAFFILIATE_SET_STATUS = 'postaffiliate-set-status';
 }

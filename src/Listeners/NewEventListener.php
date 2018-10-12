@@ -1,8 +1,8 @@
 <?php namespace professionalweb\IntegrationHub\Postaffiliate\Listeners;
 
 use professionalweb\IntegrationHub\Postaffiliate\Interfaces\NewEventSubsystem;
+use professionalweb\IntegrationHub\Postaffiliate\Interfaces\SetStatusSubsystem;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Services\Subsystem;
-use professionalweb\IntegrationHub\Postaffiliate\Interfaces\ApproveTransactionSubsystem;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Events\EventToProcess;
 
 class NewEventListener
@@ -12,9 +12,9 @@ class NewEventListener
         /** @var Subsystem $subsystem */
         $subsystem = null;
         switch ($eventToProcess->getProcessOptions()->getSubsystemId()) {
-            case ApproveTransactionSubsystem::POSTAFFILIATE_APPROVE_TRANSACTION:
-                /** @var ApproveTransactionSubsystem $subsystem */
-                $subsystem = app(ApproveTransactionSubsystem::class);
+            case SetStatusSubsystem::POSTAFFILIATE_SET_STATUS:
+                /** @var SetStatusSubsystem $subsystem */
+                $subsystem = app(SetStatusSubsystem::class);
                 break;
             case NewEventSubsystem::POSTAFFILIATE_NEW_TRANSACTION:
                 /** @var NewEventSubsystem $subsystem */
