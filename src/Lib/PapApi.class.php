@@ -7741,6 +7741,11 @@ if (!class_exists('Pap_Api_Tracker', false)) {
             }
         }
 
+        public function getTrackerResponse()
+        {
+            return $this->trackingResponse;
+        }
+
     }
 
 } //end Pap_Api_Tracker
