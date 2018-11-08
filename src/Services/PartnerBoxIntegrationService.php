@@ -112,6 +112,27 @@ class PartnerBoxIntegrationService implements IPartnerBoxIntegrationService
     }
 
     /**
+     * Get event by order id
+     *
+     * @param string $orderId
+     *
+     * @return array
+     * @throws WrongCredentialsException
+     */
+    public function getEvent(string $orderId): array
+    {
+        $request = new \Pap_Api_TransactionsGrid($this->createSession());
+        $request->addFilter('orderid', \Gpf_Data_Filter::EQUALS, $orderId);
+        $request->sendNow();
+        $grid = $request->getGrid();
+        $recordSet = $grid->getRecordset();
+
+        $rec = $recordSet->get(0);
+
+        return $rec !== null ? $rec->getAttributes() : [];
+    }
+
+    /**
      * Set status to transaction
      *
      * @param int|string $orderId
@@ -122,15 +143,11 @@ class PartnerBoxIntegrationService implements IPartnerBoxIntegrationService
      */
     public function setTransactionStatus($orderId, string $status)
     {
-        $request = new \Pap_Api_TransactionsGrid($this->createSession());
-        $request->addFilter('orderid', \Gpf_Data_Filter::EQUALS, $orderId);
-        $request->sendNow();
-        $grid = $request->getGrid();
-        $recordSet = $grid->getRecordset();
-        if ($rec = $recordSet->get(0)) {
+        $event = $this->getEvent($orderId);
+        if (!empty($event) && isset($event['id'])) {
             try {
                 $sale = new \Pap_Api_Transaction($this->session);
-                $sale->setTransid($rec->get('id'));
+                $sale->setTransid($event['id']);
                 if ($sale->load()) {
                     $sale->setStatus($status);
                     if ($sale->save()) {

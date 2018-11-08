@@ -21,6 +21,15 @@ interface PartnerBoxService
     public function sendEvent(array $data): string;
 
     /**
+     * Get event by orderId
+     *
+     * @param string $orderId
+     *
+     * @return array
+     */
+    public function getEvent(string $orderId): array;
+
+    /**
      * Approve transaction
      *
      * @param string $transactionId

@@ -39,6 +39,11 @@ class PartnerBoxService implements IPartnerBoxService
         return $response;
     }
 
+    public function getEvent(string $orderId): array
+    {
+
+    }
+
     /**
      * Approve transaction
      *

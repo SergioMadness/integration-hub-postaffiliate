@@ -1,5 +1,6 @@
 <?php namespace professionalweb\IntegrationHub\Postaffiliate\Listeners;
 
+use professionalweb\IntegrationHub\Postaffiliate\Interfaces\GetEventSubsystem;
 use professionalweb\IntegrationHub\Postaffiliate\Interfaces\NewEventSubsystem;
 use professionalweb\IntegrationHub\Postaffiliate\Interfaces\SetStatusSubsystem;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Services\Subsystem;
@@ -19,6 +20,10 @@ class NewEventListener
             case NewEventSubsystem::POSTAFFILIATE_NEW_TRANSACTION:
                 /** @var NewEventSubsystem $subsystem */
                 $subsystem = app(NewEventSubsystem::class);
+                break;
+            case GetEventSubsystem::POSTAFFILIATE_GET_TRANSACTION:
+                /** @var GetEventSubsystem $subsystem */
+                $subsystem = app(GetEventSubsystem::class);
                 break;
         }
 
