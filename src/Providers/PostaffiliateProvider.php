@@ -1,12 +1,12 @@
 <?php namespace professionalweb\IntegrationHub\Postaffiliate\Providers;
 
-require __DIR__ . '/../Lib/PapApi.class.php';
-
 use Illuminate\Support\ServiceProvider;
+use professionalweb\IntegrationHub\Postaffiliate\Services\GetEventService;
 use professionalweb\IntegrationHub\Postaffiliate\Services\SendEventService;
 use professionalweb\IntegrationHub\Postaffiliate\Services\PartnerBoxService;
 use professionalweb\IntegrationHub\Postaffiliate\Services\SetStatusSubsystem;
 use professionalweb\IntegrationHub\Postaffiliate\Interfaces\NewEventSubsystem;
+use professionalweb\IntegrationHub\Postaffiliate\Interfaces\GetEventSubsystem;
 use professionalweb\IntegrationHub\Postaffiliate\Services\PartnerBoxIntegrationService;
 use professionalweb\IntegrationHub\Postaffiliate\Interfaces\PartnerBoxService as IPartnerBoxService;
 use professionalweb\IntegrationHub\Postaffiliate\Interfaces\SetStatusSubsystem as ISetStatusSubsystem;
@@ -22,9 +22,10 @@ class PostaffiliateProvider extends ServiceProvider
     {
         $this->app->register(EventServiceProvider::class);
 
-        $this->app->bind(IPartnerBoxIntegrationService::class, PartnerBoxIntegrationService::class);
-        $this->app->bind(IPartnerBoxService::class, PartnerBoxService::class);
+        $this->app->bind(GetEventSubsystem::class, GetEventService::class);
         $this->app->bind(NewEventSubsystem::class, SendEventService::class);
+        $this->app->bind(IPartnerBoxService::class, PartnerBoxService::class);
         $this->app->bind(ISetStatusSubsystem::class, SetStatusSubsystem::class);
+        $this->app->bind(IPartnerBoxIntegrationService::class, PartnerBoxIntegrationService::class);
     }
 }
