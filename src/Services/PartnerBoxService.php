@@ -39,9 +39,19 @@ class PartnerBoxService implements IPartnerBoxService
         return $response;
     }
 
+    /**
+     * Get event
+     *
+     * @param string $orderId
+     *
+     * @return array
+     */
     public function getEvent(string $orderId): array
     {
+        $response = $this->getIntegrationService()
+            ->getEvent($orderId);
 
+        return $response;
     }
 
     /**

@@ -54,9 +54,12 @@ class GetEventService implements GetEventSubsystem
      */
     public function process(EventData $eventData): EventData
     {
-        $this->getPartnerBoxService()->getEvent($eventData->getData()['order_id'] ?? '');
+        $data = $eventData->getData();
+        $event = $this->getPartnerBoxService()->getEvent($data['order_id'] ?? '');
 
-        return $eventData;
+        $data = array_merge($data, $event);
+
+        return $eventData->setData($data);
     }
 
     /**
