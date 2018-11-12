@@ -18,15 +18,19 @@ class NewEventOptions implements SubsystemOptions
     public function getAvailableFields(): array
     {
         return [
-            'amount'     => 'Amount',
-            'email'      => 'E-mail',
-            'order_id'   => 'Order ID',
-            'product_id' => 'Product ID',
-            'data1'      => 'Data 1',
-            'data2'      => 'Data 2',
-            'data3'      => 'Data 3',
-            'data4'      => 'Data 4',
-            'data5'      => 'Data 5',
+            'amount'       => 'Amount',
+            'email'        => 'E-mail',
+            'order_id'     => 'Order ID',
+            'product_id'   => 'Product ID',
+            'data1'        => 'Data 1',
+            'data2'        => 'Data 2',
+            'data3'        => 'Data 3',
+            'data4'        => 'Data 4',
+            'data5'        => 'Data 5',
+            'affiliate_id' => 'Affiliate id',
+            'banner_id'    => 'Banner id',
+            'campaign_id'  => 'Campaign id',
+            'channel_id'   => 'Channel id',
         ];
     }
 
@@ -63,5 +67,15 @@ class NewEventOptions implements SubsystemOptions
                 'type' => 'string',
             ],
         ];
+    }
+
+    /**
+     * Get array fields, that subsystem generates
+     *
+     * @return array
+     */
+    public function getAvailableOutFields(): array
+    {
+        return [];
     }
 }

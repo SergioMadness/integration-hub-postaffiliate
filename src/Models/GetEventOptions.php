@@ -56,4 +56,19 @@ class GetEventOptions implements SubsystemOptions
             ],
         ];
     }
+
+    /**
+     * Get array fields, that subsystem generates
+     *
+     * @return array
+     */
+    public function getAvailableOutFields(): array
+    {
+        return [
+            'refid'      => 'Affiliate id',
+            'bannerid'   => 'Banner id',
+            'campaignid' => 'Campaign id',
+            'channel'    => 'Channel id',
+        ];
+    }
 }

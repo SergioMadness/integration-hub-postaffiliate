@@ -20,4 +20,14 @@ class SetStatusOptions extends NewEventOptions
             'status'         => 'status',
         ];
     }
+
+    /**
+     * Get array fields, that subsystem generates
+     *
+     * @return array
+     */
+    public function getAvailableOutFields(): array
+    {
+        return [];
+    }
 }
