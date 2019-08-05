@@ -108,7 +108,7 @@ class PartnerBoxIntegrationService implements IPartnerBoxIntegrationService
 
         $saleTracker->register();
 
-        return $saleTracker->getTrackerResponse();
+        return true;
     }
 
     /**
