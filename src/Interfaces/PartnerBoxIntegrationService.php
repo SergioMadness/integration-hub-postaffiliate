@@ -24,12 +24,21 @@ interface PartnerBoxIntegrationService
     /**
      * Send event
      *
-     * @param string     $eventName
-     * @param array      $data
+     * @param string $eventName
+     * @param array  $data
      *
      * @return mixed
      */
     public function sendEvent(string $eventName, array $data);
+
+    /**
+     * Get event by order id
+     *
+     * @param string $orderId
+     *
+     * @return array
+     */
+    public function getEvent(string $orderId): array;
 
     /**
      * Set status to transaction

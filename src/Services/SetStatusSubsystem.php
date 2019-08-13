@@ -1,14 +1,17 @@
 <?php namespace professionalweb\IntegrationHub\Postaffiliate\Services;
 
-use professionalweb\IntegrationHub\Postaffiliate\Models\NewEventOptions;
+use professionalweb\IntegrationHub\Postaffiliate\Models\SetStatusOptions;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\EventData;
-use professionalweb\IntegrationHub\Postaffiliate\Interfaces\NewEventSubsystem;
-use professionalweb\IntegrationHub\Postaffiliate\Interfaces\PartnerBoxService;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Services\Subsystem;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\ProcessOptions;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\SubsystemOptions;
+use professionalweb\IntegrationHub\Postaffiliate\Interfaces\SetStatusSubsystem as ISetStatusSubsystem;
 
-class SendEventService implements NewEventSubsystem
+/**
+ * Subsystem to approve transaction status in partnerbox
+ * @package professionalweb\IntegrationHub\Postaffiliate\Services
+ */
+class SetStatusSubsystem implements ISetStatusSubsystem
 {
 
     /**
@@ -42,7 +45,7 @@ class SendEventService implements NewEventSubsystem
      */
     public function getAvailableOptions(): SubsystemOptions
     {
-        return new NewEventOptions();
+        return new SetStatusOptions();
     }
 
     /**
@@ -54,7 +57,11 @@ class SendEventService implements NewEventSubsystem
      */
     public function process(EventData $eventData): EventData
     {
-        $this->getPartnerBoxService()->sendEvent($eventData->getData());
+        $transactionId = $eventData->getData()['transaction_id'] ?? null;
+        $status = $eventData->getData()['status'] ?? null;
+        if ($transactionId !== null) {
+            $this->getPartnerBoxService()->setTransactionStatus($transactionId, $status);
+        }
 
         return $eventData;
     }

@@ -2,7 +2,7 @@
 
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Services\Subsystem;
 
-interface ApproveTransactionSubsystem extends Subsystem
+interface SetStatusSubsystem extends Subsystem
 {
-
+    public const POSTAFFILIATE_SET_STATUS = 'postaffiliate-set-status';
 }

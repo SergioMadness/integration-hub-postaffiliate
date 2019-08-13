@@ -96,15 +96,40 @@ class PartnerBoxIntegrationService implements IPartnerBoxIntegrationService
         $saleTracker = $this->createSaleTracker();
         $action = $saleTracker->createAction($eventName);
         foreach ($data as $param => $value) {
-            $methodName = 'set' . camel_case($param);
+            $methodName = 'set' . studly_case($param);
             if (method_exists($action, $methodName)) {
                 $action->$methodName($value);
+            } elseif (method_exists($saleTracker, $methodName)) {
+                $saleTracker->$methodName($value);
+            } elseif (method_exists($this, $methodName)) {
+                $this->$methodName($value);
             }
         }
 
         $saleTracker->register();
 
-        return $saleTracker->getTrackerResponse();
+        return true;
+    }
+
+    /**
+     * Get event by order id
+     *
+     * @param string $orderId
+     *
+     * @return array
+     * @throws WrongCredentialsException
+     */
+    public function getEvent(string $orderId): array
+    {
+        $request = new \Pap_Api_TransactionsGrid($this->createSession());
+        $request->addFilter('orderid', \Gpf_Data_Filter::EQUALS, $orderId);
+        $request->sendNow();
+        $grid = $request->getGrid();
+        $recordSet = $grid->getRecordset();
+
+        $rec = $recordSet->get(0);
+
+        return $rec !== null ? $rec->getAttributes() : [];
     }
 
     /**
@@ -114,18 +139,15 @@ class PartnerBoxIntegrationService implements IPartnerBoxIntegrationService
      * @param string     $status
      *
      * @return mixed
+     * @throws WrongCredentialsException
      */
     public function setTransactionStatus($orderId, string $status)
     {
-        $request = new \Pap_Api_TransactionsGrid($this->session);
-        $request->addFilter('orderid', \Gpf_Data_Filter::EQUALS, $orderId);
-        $request->sendNow();
-        $grid = $request->getGrid();
-        $recordSet = $grid->getRecordset();
-        if ($rec = $recordSet->get(0)) {
+        $event = $this->getEvent($orderId);
+        if (!empty($event) && isset($event['id'])) {
             try {
                 $sale = new \Pap_Api_Transaction($this->session);
-                $sale->setTransid($rec->get('id'));
+                $sale->setTransid($event['id']);
                 if ($sale->load()) {
                     $sale->setStatus($status);
                     if ($sale->save()) {

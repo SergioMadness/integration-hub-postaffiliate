@@ -1,13 +1,15 @@
-<?php namespace professionalweb\IntegrationHub\Drivers\PartnerBox;
+<?php namespace professionalweb\IntegrationHub\Postaffiliate\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use professionalweb\IntegrationHub\Postaffiliate\Services\GetEventService;
 use professionalweb\IntegrationHub\Postaffiliate\Services\SendEventService;
 use professionalweb\IntegrationHub\Postaffiliate\Services\PartnerBoxService;
+use professionalweb\IntegrationHub\Postaffiliate\Services\SetStatusSubsystem;
 use professionalweb\IntegrationHub\Postaffiliate\Interfaces\NewEventSubsystem;
-use professionalweb\IntegrationHub\Postaffiliate\Services\ApproveTransactionService;
+use professionalweb\IntegrationHub\Postaffiliate\Interfaces\GetEventSubsystem;
 use professionalweb\IntegrationHub\Postaffiliate\Services\PartnerBoxIntegrationService;
-use professionalweb\IntegrationHub\Postaffiliate\Interfaces\ApproveTransactionSubsystem;
 use professionalweb\IntegrationHub\Postaffiliate\Interfaces\PartnerBoxService as IPartnerBoxService;
+use professionalweb\IntegrationHub\Postaffiliate\Interfaces\SetStatusSubsystem as ISetStatusSubsystem;
 use professionalweb\IntegrationHub\Postaffiliate\Interfaces\PartnerBoxIntegrationService as IPartnerBoxIntegrationService;
 
 class PostaffiliateProvider extends ServiceProvider
@@ -18,9 +20,12 @@ class PostaffiliateProvider extends ServiceProvider
 
     public function register(): void
     {
-        $this->app->bind(IPartnerBoxIntegrationService::class, PartnerBoxIntegrationService::class);
-        $this->app->bind(IPartnerBoxService::class, PartnerBoxService::class);
+        $this->app->register(EventServiceProvider::class);
+
+        $this->app->bind(GetEventSubsystem::class, GetEventService::class);
         $this->app->bind(NewEventSubsystem::class, SendEventService::class);
-        $this->app->bind(ApproveTransactionSubsystem::class, ApproveTransactionService::class);
+        $this->app->bind(IPartnerBoxService::class, PartnerBoxService::class);
+        $this->app->bind(ISetStatusSubsystem::class, SetStatusSubsystem::class);
+        $this->app->bind(IPartnerBoxIntegrationService::class, PartnerBoxIntegrationService::class);
     }
 }

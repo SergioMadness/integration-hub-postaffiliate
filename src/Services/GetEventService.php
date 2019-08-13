@@ -1,16 +1,14 @@
 <?php namespace professionalweb\IntegrationHub\Postaffiliate\Services;
 
+use professionalweb\IntegrationHub\Postaffiliate\Models\GetEventOptions;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\EventData;
+use professionalweb\IntegrationHub\Postaffiliate\Interfaces\GetEventSubsystem;
+use professionalweb\IntegrationHub\Postaffiliate\Interfaces\PartnerBoxService;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Services\Subsystem;
-use professionalweb\IntegrationHub\Postaffiliate\Interfaces\ApproveTransactionSubsystem;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\ProcessOptions;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\SubsystemOptions;
 
-/**
- * Subsystem to approve transaction status in partnerbox
- * @package professionalweb\IntegrationHub\Postaffiliate\Services
- */
-class ApproveTransactionService implements ApproveTransactionSubsystem
+class GetEventService implements GetEventSubsystem
 {
 
     /**
@@ -32,7 +30,9 @@ class ApproveTransactionService implements ApproveTransactionSubsystem
      */
     public function setProcessOptions(ProcessOptions $options): Subsystem
     {
-        // TODO: Implement setProcessOptions() method.
+        $this->getPartnerBoxService()->setSettings($options->getOptions());
+
+        return $this;
     }
 
     /**
@@ -42,7 +42,7 @@ class ApproveTransactionService implements ApproveTransactionSubsystem
      */
     public function getAvailableOptions(): SubsystemOptions
     {
-        // TODO: Implement getAvailableOptions() method.
+        return new GetEventOptions();
     }
 
     /**
@@ -54,7 +54,12 @@ class ApproveTransactionService implements ApproveTransactionSubsystem
      */
     public function process(EventData $eventData): EventData
     {
-        // TODO: Implement process() method.
+        $data = $eventData->getData();
+        $event = $this->getPartnerBoxService()->getEvent($data['order_id'] ?? '');
+
+        $data = array_merge($data, $event);
+
+        return $eventData->setData($data);
     }
 
     /**

@@ -2,7 +2,7 @@
 
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Services\Subsystem;
 
-interface NewEventSubsystem extends Subsystem
+interface GetEventSubsystem extends Subsystem
 {
-    public const POSTAFFILIATE_NEW_TRANSACTION = 'postaffiliate-new-transaction';
+    public const POSTAFFILIATE_GET_TRANSACTION = 'postaffiliate-get-transaction';
 }
