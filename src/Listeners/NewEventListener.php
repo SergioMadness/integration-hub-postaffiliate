@@ -3,6 +3,7 @@
 use professionalweb\IntegrationHub\Postaffiliate\Interfaces\GetEventSubsystem;
 use professionalweb\IntegrationHub\Postaffiliate\Interfaces\NewEventSubsystem;
 use professionalweb\IntegrationHub\Postaffiliate\Interfaces\SetStatusSubsystem;
+use professionalweb\IntegrationHub\Postaffiliate\Interfaces\UpdateEventSubsystem;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Services\Subsystem;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Events\EventToProcess;
 
@@ -24,6 +25,10 @@ class NewEventListener
             case GetEventSubsystem::POSTAFFILIATE_GET_TRANSACTION:
                 /** @var GetEventSubsystem $subsystem */
                 $subsystem = app(GetEventSubsystem::class);
+                break;
+            case UpdateEventSubsystem::POSTAFFILIATE_UPDATE_EVENT:
+                /** @var UpdateEventSubsystem $subsystem */
+                $subsystem = app(UpdateEventSubsystem::class);
                 break;
         }
 

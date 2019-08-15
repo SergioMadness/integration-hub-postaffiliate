@@ -135,13 +135,13 @@ class PartnerBoxIntegrationService implements IPartnerBoxIntegrationService
     /**
      * Set status to transaction
      *
-     * @param int|string $orderId
-     * @param string     $status
+     * @param string $orderId
+     * @param string $status
      *
      * @return mixed
      * @throws WrongCredentialsException
      */
-    public function setTransactionStatus($orderId, string $status)
+    public function setTransactionStatus(string $orderId, string $status): bool
     {
         $event = $this->getEvent($orderId);
         if (!empty($event) && isset($event['id'])) {
@@ -150,6 +150,41 @@ class PartnerBoxIntegrationService implements IPartnerBoxIntegrationService
                 $sale->setTransid($event['id']);
                 if ($sale->load()) {
                     $sale->setStatus($status);
+                    if ($sale->save()) {
+                        return true;
+                    }
+                }
+            } catch (\Exception $ex) {
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Update order
+     *
+     * @param string $orderId
+     * @param array  $data
+     *
+     * @return bool
+     * @throws WrongCredentialsException
+     */
+    public function updateEvent(string $orderId, array $data): bool
+    {
+        $event = $this->getEvent($orderId);
+        if (!empty($event) && isset($event['id'])) {
+            try {
+                $sale = new \Pap_Api_Transaction($this->session);
+                $sale->setTransid($event['id']);
+                if ($sale->load()) {
+                    foreach ($data as $param => $value) {
+                        $methodName = 'set' . studly_case($param);
+                        if (method_exists($sale, $methodName)) {
+                            $sale->$methodName($value);
+                        }
+                    }
                     if ($sale->save()) {
                         return true;
                     }

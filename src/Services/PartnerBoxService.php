@@ -85,6 +85,17 @@ class PartnerBoxService implements IPartnerBoxService
         $this->getIntegrationService()->setTransactionStatus($transactionId, $transactionStatus);
     }
 
+    /**
+     * Update event
+     *
+     * @param string $transactionId
+     * @param array  $data
+     */
+    public function updateEvent(string $transactionId, array $data): void
+    {
+        $this->getIntegrationService()->updateEvent($transactionId, $data);
+    }
+
     //<editor-fold desc="Getters and setters" defaultstate="collapsed">
 
     /**
@@ -155,4 +166,5 @@ class PartnerBoxService implements IPartnerBoxService
     }
 
     //</editor-fold>
+
 }

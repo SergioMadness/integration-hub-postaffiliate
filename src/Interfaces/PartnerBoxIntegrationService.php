@@ -43,10 +43,20 @@ interface PartnerBoxIntegrationService
     /**
      * Set status to transaction
      *
-     * @param int|string $orderId
+     * @param string $orderId
      * @param string     $status
      *
      * @return mixed
      */
-    public function setTransactionStatus($orderId, string $status);
+    public function setTransactionStatus(string $orderId, string $status): bool;
+
+    /**
+     * Update order
+     *
+     * @param string $orderId
+     * @param array  $data
+     *
+     * @return bool
+     */
+    public function updateEvent(string $orderId, array $data): bool;
 }

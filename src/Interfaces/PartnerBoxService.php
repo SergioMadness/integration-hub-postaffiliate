@@ -50,4 +50,12 @@ interface PartnerBoxService
      * @param string $transactionStatus
      */
     public function setTransactionStatus(string $transactionId, string $transactionStatus): void;
+
+    /**
+     * Update event
+     *
+     * @param string $transactionId
+     * @param array  $data
+     */
+    public function updateEvent(string $transactionId, array $data): void;
 }
