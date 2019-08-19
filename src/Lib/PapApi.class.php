@@ -5467,6 +5467,26 @@ if (!class_exists('Pap_Api_Transaction', false)) {
             $this->setField("data$index", $value, $operator);
         }
 
+        public function setData1($value, $operator = self::OPERATOR_EQUALS) {
+            $this->setData(1, $value, $operator);
+        }
+
+        public function setData2($value, $operator = self::OPERATOR_EQUALS) {
+            $this->setData(2, $value, $operator);
+        }
+
+        public function setData3($value, $operator = self::OPERATOR_EQUALS) {
+            $this->setData(3, $value, $operator);
+        }
+
+        public function setData4($value, $operator = self::OPERATOR_EQUALS) {
+            $this->setData(4, $value, $operator);
+        }
+
+        public function setData5($value, $operator = self::OPERATOR_EQUALS) {
+            $this->setData(5, $value, $operator);
+        }
+
         /**
          * @param $note optional note that will be added to the refund/chargeback transaction
          * @param $fee that will be added to the refund/chargeback transaction
