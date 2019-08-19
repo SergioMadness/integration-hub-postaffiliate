@@ -4,5 +4,5 @@ use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Services\Subs
 
 interface UpdateEventSubsystem extends Subsystem
 {
-    public const POSTAFFILIATE_UPDATE_EVENT = 'postaffiliate-update_event';
+    public const POSTAFFILIATE_UPDATE_EVENT = 'postaffiliate-update-event';
 }

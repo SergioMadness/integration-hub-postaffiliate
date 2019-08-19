@@ -5,13 +5,13 @@ use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\EventData;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Services\Subsystem;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\ProcessOptions;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\SubsystemOptions;
-use professionalweb\IntegrationHub\Postaffiliate\Interfaces\SetStatusSubsystem as ISetStatusSubsystem;
+use professionalweb\IntegrationHub\Postaffiliate\Interfaces\UpdateEventSubsystem as IUpdateEventSubsystem;
 
 /**
  * Subsystem to update events in partnerbox
  * @package professionalweb\IntegrationHub\Postaffiliate\Services
  */
-class UpdateEventSubsystem implements ISetStatusSubsystem
+class UpdateEventSubsystem implements IUpdateEventSubsystem
 {
 
     /**
