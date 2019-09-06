@@ -143,23 +143,9 @@ class PartnerBoxIntegrationService implements IPartnerBoxIntegrationService
      */
     public function setTransactionStatus(string $orderId, string $status): bool
     {
-        $event = $this->getEvent($orderId);
-        if (!empty($event) && isset($event['id'])) {
-            try {
-                $sale = new \Pap_Api_Transaction($this->session);
-                $sale->setTransid($event['id']);
-                if ($sale->load()) {
-                    $sale->setStatus($status);
-                    if ($sale->save()) {
-                        return true;
-                    }
-                }
-            } catch (\Exception $ex) {
-                return false;
-            }
-        }
-
-        return false;
+        return $this->updateEvent($orderId, [
+            'status'=>$status
+        ]);
     }
 
     /**
@@ -188,6 +174,8 @@ class PartnerBoxIntegrationService implements IPartnerBoxIntegrationService
                     if ($sale->save()) {
                         return true;
                     }
+                } else {
+                    $this->sendEvent('', $data);
                 }
             } catch (\Exception $ex) {
                 return false;
