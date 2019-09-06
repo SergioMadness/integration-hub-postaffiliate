@@ -144,7 +144,7 @@ class PartnerBoxIntegrationService implements IPartnerBoxIntegrationService
     public function setTransactionStatus(string $orderId, string $status): bool
     {
         return $this->updateEvent($orderId, [
-            'status'=>$status
+            'status' => $status,
         ]);
     }
 
@@ -174,15 +174,13 @@ class PartnerBoxIntegrationService implements IPartnerBoxIntegrationService
                     if ($sale->save()) {
                         return true;
                     }
-                } else {
-                    $this->sendEvent('', $data);
                 }
             } catch (\Exception $ex) {
                 return false;
             }
         }
 
-        return false;
+        return $this->sendEvent('', $data);
     }
 
     //<editor-fold desc="Getters and setters" defaultstate="collapsed">
