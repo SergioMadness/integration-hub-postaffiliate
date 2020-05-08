@@ -9,8 +9,8 @@
  *   Version 1.0 (the "License"); you may not use this file except in compliance
  *   with the License. You may obtain a copy of the License at
  *   http://www.qualityunit.com/licenses/gpf
- *   Generated on: 2019-07-10 06:36:18
- *   PAP version: 5.8.1.5, GPF version: 1.3.59.0
+ *   Generated on: 2020-02-16 03:42:33
+ *   PAP version: 5.9.8.3, GPF version: 1.3.63.0
  *
  */
 
@@ -19,7 +19,7 @@
 @ini_set('session.use_cookies', true);
 @ini_set('session.use_trans_sid', false);
 
-define('PAP_VERSION', '5.8.1.5');
+define('PAP_VERSION', '5.9.8.3');
 
 if (!class_exists('Gpf', false)) {
     class Gpf {
@@ -763,7 +763,7 @@ if (!class_exists('Gpf_Rpc_Request', false)) {
          *
          * @return Gpf_Rpc_MultiRequest
          */
-        private function getMultiRequest() {
+        public function getMultiRequest() {
             if($this->multiRequest === null) {
                 return Gpf_Rpc_MultiRequest::getInstance();
             }
@@ -1493,7 +1493,7 @@ if (!class_exists('Gpf_Data_RecordSet', false)) {
          * @return Gpf_Data_Record
          */
         public function get($i) {
-            return $this->_array[$i];
+            return $this->_array[$i]??null;
         }
 
         /**
@@ -1562,6 +1562,20 @@ if (!class_exists('Gpf_Data_RecordSet', false)) {
                 }
             }
             return false;
+        }
+
+        /**
+         * @param $headerColumn
+         * @param $value
+         * @return Gpf_Data_Record|null
+         */
+        public function getRecordByValue($headerColumn, $value) {
+            foreach ($this->_array as $record) {
+                if ($record->get($headerColumn) == $value) {
+                    return $record;
+                }
+            }
+            return null;
         }
 
         /**
@@ -2939,13 +2953,13 @@ if (!class_exists('Gpf_Rpc_PhpErrorHandler', false)) {
             $this->callback = $callback;
             $this->errorTypes = $errorTypes;
             $this->params = $params;
-            $oldErrorHandler = set_error_handler(array(&$this, 'handleError'), $errorTypes);
+            set_error_handler(array(&$this, 'handleError'), $errorTypes);
             try {
                 $result = call_user_func_array($callback, $params);
             } catch (ErrorException $e) {
                 $result = null;
             }
-            set_error_handler($oldErrorHandler);
+            restore_error_handler();
             return $result;
         }
 
@@ -3909,6 +3923,8 @@ if (!class_exists('Gpf_Rpc_Json', false)) {
          */
         private static $instance;
 
+        private $errorHandler;
+
         /**
          * constructs a new JSON instance
          *
@@ -4288,6 +4304,13 @@ if (!class_exists('Gpf_Rpc_Json', false)) {
             return trim($str);
         }
 
+        private function getErrorHandler() {
+            if ($this->errorHandler == null) {
+                $this->errorHandler = new Gpf_Rpc_PhpErrorHandler();
+            }
+            return $this->errorHandler;
+        }
+
         /**
          * decodes a JSON string into appropriate variable
          *
@@ -4303,8 +4326,7 @@ if (!class_exists('Gpf_Rpc_Json', false)) {
 
         public function decode($str, $assoc = false) {
             if ($this->isJsonDecodeEnabled()) {
-                $errorHandler = new Gpf_Rpc_PhpErrorHandler();
-                $response = $errorHandler->callMethod('json_decode', array($str, $assoc));
+                $response = $this->getErrorHandler()->callMethod('json_decode', array($str, $assoc));
                 return $response;
             }
             if ($assoc) {
@@ -4748,6 +4770,10 @@ if (!class_exists('Pap_Api_Object', false)) {
 
         public function getSession() {
             return $this->session;
+        }
+
+        public function setSession($session) {
+            $this->session = $session;
         }
 
         public function getMessage() {
@@ -5275,6 +5301,7 @@ if (!class_exists('Pap_Api_Transaction', false)) {
         const TRACKING_METHOD_MANUAL_COMMISSION = 'M';
 
         private $dataValues = null;
+        private $isTransIdChanged = false;
 
         public function __construct(Gpf_Api_Session $session) {
             if($session->getRoleType() == Gpf_Api_Session::AFFILIATE) {
@@ -5290,6 +5317,7 @@ if (!class_exists('Pap_Api_Transaction', false)) {
         public function setTransid($value) {
             $this->setField("transid", $value);
             $this->setField("Id", $value);
+            $this->isTransIdChanged = true;
         }
 
         public function getType() { return $this->getField("rtype"); }
@@ -5467,26 +5495,6 @@ if (!class_exists('Pap_Api_Transaction', false)) {
             $this->setField("data$index", $value, $operator);
         }
 
-        public function setData1($value, $operator = self::OPERATOR_EQUALS) {
-            $this->setData(1, $value, $operator);
-        }
-
-        public function setData2($value, $operator = self::OPERATOR_EQUALS) {
-            $this->setData(2, $value, $operator);
-        }
-
-        public function setData3($value, $operator = self::OPERATOR_EQUALS) {
-            $this->setData(3, $value, $operator);
-        }
-
-        public function setData4($value, $operator = self::OPERATOR_EQUALS) {
-            $this->setData(4, $value, $operator);
-        }
-
-        public function setData5($value, $operator = self::OPERATOR_EQUALS) {
-            $this->setData(5, $value, $operator);
-        }
-
         /**
          * @param $note optional note that will be added to the refund/chargeback transaction
          * @param $fee that will be added to the refund/chargeback transaction
@@ -5599,7 +5607,9 @@ if (!class_exists('Pap_Api_Transaction', false)) {
         }
 
         protected function fillEmptyRecord() {
-            $this->setTransid('');
+            if (!$this->isTransIdChanged) {
+                $this->setTransid('');
+            }
             if($this->getType() == '') {
                 $this->setType('S');
             }
@@ -5617,6 +5627,12 @@ if (!class_exists('Pap_Api_Transaction', false)) {
 
         protected function getGridRequest() {
             return new Pap_Api_TransactionsGrid($this->getSession());
+        }
+
+        public function load() {
+            $result = parent::load();
+            $this->isTransIdChanged = false;
+            return $result;
         }
     }
 
