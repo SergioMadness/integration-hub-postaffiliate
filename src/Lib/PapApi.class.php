@@ -19,7 +19,7 @@
 @ini_set('session.use_cookies', true);
 @ini_set('session.use_trans_sid', false);
 
-define('PAP_VERSION', '5.9.19.3');
+define('PAP_VERSION', '5.9.19.12');
 
 if (!class_exists('Gpf', false)) {
     class Gpf {
