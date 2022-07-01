@@ -12,42 +12,42 @@ class PartnerBoxIntegrationService implements IPartnerBoxIntegrationService
     /**
      * @var \Gpf_Api_Session
      */
-    private $session;
+    private \Gpf_Api_Session $session;
 
     /**
      * @var string
      */
-    private $serverUrl;
+    private string $serverUrl;
 
     /**
      * @var string
      */
-    private $saleUrl;
+    private string $saleUrl;
 
     /**
      * @var string
      */
-    private $login;
+    private string $login;
 
     /**
      * @var string
      */
-    private $password;
+    private string $password;
 
     /**
-     * @var string|int
+     * @var string
      */
-    private $visitorId;
+    private string $visitorId;
 
     /**
      * @var \Pap_Api_SaleTracker
      */
-    private $saleTracker;
+    private \Pap_Api_SaleTracker $saleTracker;
 
     /**
-     * @var string|int
+     * @var string
      */
-    private $accountId;
+    private string $accountId;
 
     /**
      * Create session

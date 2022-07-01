@@ -14,7 +14,7 @@ class SendEventService implements NewEventSubsystem
     /**
      * @var PartnerBoxService
      */
-    private $partnerBoxService;
+    private PartnerBoxService $partnerBoxService;
 
     public function __construct(PartnerBoxService $partnerBoxService)
     {

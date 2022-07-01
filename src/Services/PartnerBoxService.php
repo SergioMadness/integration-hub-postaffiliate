@@ -12,12 +12,12 @@ class PartnerBoxService implements IPartnerBoxService
     /**
      * @var PartnerBoxIntegrationService
      */
-    private $integrationService;
+    private PartnerBoxIntegrationService $integrationService;
 
     /**
      * @var string
      */
-    private $eventName;
+    private string $eventName;
 
     public function __construct(PartnerBoxIntegrationService $partnerBoxIntegrationService)
     {

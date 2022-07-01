@@ -17,7 +17,7 @@ class SetStatusSubsystem implements ISetStatusSubsystem
     /**
      * @var PartnerBoxService
      */
-    private $partnerBoxService;
+    private PartnerBoxService $partnerBoxService;
 
     public function __construct(PartnerBoxService $partnerBoxService)
     {

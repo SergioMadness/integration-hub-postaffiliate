@@ -14,7 +14,7 @@ class GetEventService implements GetEventSubsystem
     /**
      * @var PartnerBoxService
      */
-    private $partnerBoxService;
+    private PartnerBoxService $partnerBoxService;
 
     public function __construct(PartnerBoxService $partnerBoxService)
     {
